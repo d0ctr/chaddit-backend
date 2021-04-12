@@ -1,8 +1,10 @@
 #!/bin/sh
 if [ ! -d "$MIGRATIONS_DIR" ]
 then
-    echo "Initing db in $MIGRATIONS_DIR"
-    flask db init
+    if [ -z "$(ls -A $MIGRATIONS_DIR)" ]; then
+        echo "Initing db in $MIGRATIONS_DIR"
+        flask db init
+    fi
 else
     echo "Not initing db in $MIGRATIONS_DIR"
 fi
