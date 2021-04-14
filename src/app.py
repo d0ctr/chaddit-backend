@@ -6,7 +6,7 @@ from sqlalchemy_utils import database_exists, create_database
 from .socketio import socketio
 from .config import app_config
 from .models import db, bcrypt
-from .shared.utils import def_roles, add_admin
+from .shared.utils import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic
 import time
 import os
 
@@ -32,15 +32,15 @@ def create_app(env_name):
   socketio.init_app(app, cors_allowed_origins='*')
   CORS(app)
 
-  app.register_blueprint(search_blueprint, url_prefix='/chaddit/c/')
-  app.register_blueprint(user_blueprint, url_prefix='/chaddit/c/')
-  app.register_blueprint(topic_blueprint, url_prefix='/chaddit/c/')
-  app.register_blueprint(thread_blueprint, url_prefix='/chaddit/c/')
-  app.register_blueprint(post_blueprint, url_prefix='/chaddit/c/')
-  app.register_blueprint(chat_blueprint, url_prefix = '/chaddit/c/')
-  app.register_blueprint(message_blueprint, url_prefix = '/chaddit/c/')
+  app.register_blueprint(search_blueprint, url_prefix='/api/chaddit/c/')
+  app.register_blueprint(user_blueprint, url_prefix='/api/chaddit/c/')
+  app.register_blueprint(topic_blueprint, url_prefix='/api/chaddit/c/')
+  app.register_blueprint(thread_blueprint, url_prefix='/api/chaddit/c/')
+  app.register_blueprint(post_blueprint, url_prefix='/api/chaddit/c/')
+  app.register_blueprint(chat_blueprint, url_prefix = '/api/chaddit/c/')
+  app.register_blueprint(message_blueprint, url_prefix = '/api/chaddit/c/')
 
-  @app.route('/')
+  @app.route('/api')
   def index():
     return render_template('index.html', key = app.config['SQLALCHEMY_DATABASE_URI'])
 
@@ -53,5 +53,9 @@ def create_app(env_name):
   def check_initial_data():
     def_roles()
     add_admin()
+    add_topic()
+    add_thread()
+    add_chat()
+    add_messages()
 
   return app
