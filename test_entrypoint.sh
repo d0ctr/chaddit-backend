@@ -6,3 +6,4 @@ flask check_initial_data > /dev/null
 coverage run -m unittest discover
 coverage report
 coverage html
+flask clear_data
