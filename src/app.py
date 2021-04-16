@@ -23,8 +23,6 @@ def create_app(env_name):
 
   app = Flask(__name__)
   migrate = Migrate()
-  print('env_name', env_name)
-  print(os.getenv('DATABASE_URL'))
   app.config.from_object(app_config[env_name])
   bcrypt.init_app(app)
   db.init_app(app)

@@ -17,4 +17,4 @@ fi
 flask db migrate
 flask db upgrade
 flask check_initial_data
-gunicorn --workers=5 --log-file=- --bind=${1:-0.0.0.0}:${2:-5000} run:app
+gunicorn --log-file=- --bind=${1:-0.0.0.0}:${2:-5000} run:app
