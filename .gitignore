@@ -1,3 +1,4 @@
 .vscode/*
 valid-data.txt
 migrations/*
+htmlcov/*

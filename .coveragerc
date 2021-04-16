@@ -1,0 +1,23 @@
+[run]
+omit =
+    # omit anything in a .local directory anywhere
+    #*/.local/*
+    # omit everything in /usr
+    #/usr/*
+    # omit this single file
+    #utils/tirefire.py
+    venv/*
+    migrations/*
+    *virtualenvs*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self.debug:
+    if settings.DEBUG
+    raise AssertionError
+    raise NotImplementedError
+    from
+    import
+    if __name__ == .__main__.:
