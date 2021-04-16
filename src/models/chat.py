@@ -18,7 +18,6 @@ class ChatModel(db.Model):
   participants = db.relationship('UserModel', back_populates = 'chats', secondary = user_to_chat, lazy = 'dynamic', cascade = 'all, delete')
 
   def __init__(self, data):
-    self.body = data.get('body')
     self.active = True
     self.created_at = datetime.datetime.utcnow()
     self.updated_at = self.created_at

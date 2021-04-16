@@ -28,7 +28,7 @@ class UserModel(db.Model):
     self.user_email = data.get('user_email')
     self.user_pass = self.__generate_hash(data.get('user_pass'))
     self.user_tag = self.__generate_tag(self.user_name)
-    self.role_id = RoleId.USER
+    self.role_id = data.get('role_id') if data.get('role_id') else RoleId.USER
     self.active = True
     self.created_at = datetime.datetime.utcnow()
     self.updated_at = self.created_at
