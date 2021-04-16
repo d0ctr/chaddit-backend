@@ -67,6 +67,10 @@ def add_thread():
   if ThreadModel.query.count() == 0:
     ThreadModel({'thread_id': 1, 'thread_title': 'Test_thread_1', 'author_id': 1, 'topic_id': 1}).\
       save()
+def add_post():
+  if PostModel.query.count() == 0:
+    PostModel({'post_id': 1, 'body': 'Test_post_1', 'author_id': 1, 'thread_id': 1}).\
+      save()
 
 def add_chat():
   if ChatModel.query.count() == 0:
@@ -152,7 +156,7 @@ class CurrentWorkspace():
       if not post:
         return Response(
           mimetype ='application/json',
-          response = json.dumps({'error': 'Invalid thread, access real one to continue.'}),
+          response = json.dumps({'error': 'Invalid post, access real one to continue.'}),
           status = 400
         )
       

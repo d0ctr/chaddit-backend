@@ -6,7 +6,7 @@ from sqlalchemy_utils import database_exists, create_database
 from .socketio import socketio
 from .config import app_config
 from .models import db, bcrypt
-from .shared.utils import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic, del_messages, del_chats, del_tags, del_threads, del_topics, del_users, del_roles
+from .shared.utils import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic, add_post
 
 import time
 import os
@@ -50,22 +50,17 @@ def create_app(env_name):
 
   @app.cli.command('check_initial_data')
   def check_initial_data():
+    db.create_all()
     def_roles()
     add_admin()
     add_topic()
     add_thread()
+    add_post()
     add_chat()
     add_messages()
   
   @app.cli.command('clear_data')
   def clear_data():
     db.drop_all()
-    # del_messages()
-    # del_chats()
-    # del_tags()
-    # del_threads()
-    # del_topics()
-    # del_users()
-    # del_roles()
 
   return app
