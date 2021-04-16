@@ -5,6 +5,34 @@ from ..models import TopicModel, ThreadModel, PostModel, ChatModel, UserModel, R
 from ..schemas import TopicSchema, ThreadSchema, PostSchema, ChatSchema, UserSchema, RoleSchema, MessageSchema
 from .constants import RoleId
 
+def del_messages():
+  for message in MessageModel.get_all():
+    message.delete()
+
+def del_chats():
+  for chat in ChatModel.get_all():
+    chat.delete()
+
+def del_tags():
+  for tag in TopicTagModel.get_all():
+    tag.delete()
+
+def del_threads():
+  for thread in ThreadModel.get_all():
+    thread.delete()
+
+def del_topics():
+  for topic in TopicModel.get_all():
+    topic.delete()
+
+def del_users():
+  for user in UserModel.get_all():
+    user.delete()
+
+def del_roles():
+  for role in RoleModel.get_all():
+    role.delete()
+
 def def_roles():
   if RoleModel.query.count() == 0:
     RoleModel({'role_id': 1, 'role_name' : 'ADMIN'}).\

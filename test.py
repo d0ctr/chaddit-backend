@@ -30,11 +30,11 @@ class FlaskTest(unittest.TestCase):
 
     def setUp(self):
         self.tester = app.test_client(self)
-        login_response = self.tester.post('/api/chaddit/c/login',
-                                          json={
-                                              'user_email': 'admin@chaddit.tk',
-                                              'user_pass': 'admin'
-                                          })
+        login_response = self.tester.post('/api/chaddit/c/login', 
+            json={
+                'user_email': 'admin@chaddit.tk',
+                'user_pass': 'admin'
+        })
         self.admin_token = json.loads(login_response.data).get('api_token')
 
     def test_login(self):
