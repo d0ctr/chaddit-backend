@@ -34,7 +34,7 @@ def register():
   token, error = Auth.generate_token(user_schema.dump(user).get('user_id'))
   if error:
     return custom_response(error, 500)
-  return custom_response({'api_token' : token}, 201)
+  return custom_response({'api-token' : token}, 201)
 
 @user_api.route('/login', methods = ['POST'])
 def login():
@@ -56,7 +56,7 @@ def login():
   token, error = Auth.generate_token(ser_user.get('user_id'))
   if error:
     return custom_response(error, 500)
-  return custom_response({'api_token': token}, 200)
+  return custom_response({'api-token': token}, 200)
 
 @user_api.route('/user/<int:user_id>', methods = ['GET'])
 @Auth.auth_required

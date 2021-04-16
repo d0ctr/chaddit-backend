@@ -40,10 +40,10 @@ class Auth():
   def auth_required(func):
     @wraps(func)
     def decorated_auth(*args, **kwargs):
-      if 'api_token' not in request.headers:
+      if 'api-token' not in request.headers:
         custom_response({'error' : 'Cannot access without token, login or sign up to get one.'}, 400)
         return custom_response({'error' : 'Cannot access without token, login or sign up to get one.'}, 400)
-      token = request.headers.get('api_token')
+      token = request.headers.get('api-token')
       data = Auth.decode_token(token)
       if data['error']:
         return custom_response(data['error'], 400)
