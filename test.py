@@ -30,20 +30,20 @@ class FlaskTest(unittest.TestCase):
 
     def setUp(self):
         self.tester = app.test_client(self)
-        login_response = self..tetser.post('/api/chaddit/c/login', 
-            json={
-                'user_email': 'admin@chaddit.tk',
-                'user_pass': 'admin'
-        })
+        login_response = self.tester.post('/api/chaddit/c/login',
+                                          json={
+                                              'user_email': 'admin@chaddit.tk',
+                                              'user_pass': 'admin'
+                                          })
         self.admin_token = json.loads(login_response.data).get('api_token')
 
     def test_login(self):
         response = self.tester.post(
-            '/api/chaddit/c/login', 
+            '/api/chaddit/c/login',
             json={
                 'user_email': 'admin@chaddit.tk',
                 'user_pass': 'admin'
-        })
+            })
         self.admin_token = json.loads(response.data).get('api_token')
         self.assertEqual(type(self.admin_token), str)
         self.assertEqual(response.status_code, 200)
@@ -55,7 +55,7 @@ class FlaskTest(unittest.TestCase):
                 'user_email': 'user@chaddit.tk',
                 'user_pass': 'user',
                 'user_name': 'user'
-        })
+            })
         self.user_token = response.get_json().get('api_token')
         self.assertEqual(response.status_code, 201)
 
@@ -77,13 +77,13 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(statusCode, 200)
 
     def test_on_update_user(self):
-        response = self.self.tester.patch(
+        response = self.tester.patch(
             f'/api/chaddit/c/user',
             headers={'api-token': str(self.admin_token)},
             json={
-                'user_name':'changed'
+                'user_name': 'changed'
             },
-            follow_redirects = True
+            follow_redirects=True
         )
         response_json = json.loads(response.data)
         self.assertEqual(type(response_json.get('user_id')), int)
@@ -91,14 +91,188 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(type(response_json.get('user_email')), str)
         self.assertTrue(type((response_json.get('avatar')) == str) or (type(response_json.get('avatar')) == None))
         self.assertEqual(type(response_json.get('role_id')), int)
+        statusCode = response.status_code
+        self.assertEqual(statusCode, 200)
+
+    def test_types_post_topic(self):
+        response = self.tester.post(
+            f'/api/chaddit/c/topic',
+            header={'api-token': str(self.admin_token)},
+            json={
+                'topic_title': "test topic title",
+                'tags': [
+                    {'test_tag': "test_tag_data"}
+                ]
+            }
+        )
+        response_json = json.loads(response.data)
+        self.assertEqual(type(response_json.get('topic_id')), int)
+        self.assertEqual(type(response_json.get('topic_title')), str)
+        self.assertEqual(type(response_json.get('created_at')), str)
+        self.assertEqual(type(response_json.get('updated_at')), str)
+        self.assertEqual(type(response_json.get('author_id')), int)
+        self.assertEqual(type(response_json.get('tags')), list)
+        self.assertTrue(type((response_json.get('image')) == str) or (type(response_json.get('image')) == None))
+        self.assertEqual(type(response_json.get('active')), bool)
+        self.assertEqual(type(response_json.get('author')), dict)
+        self.assertEqual(type(response_json.get('threads_count')), int)
+        statusCode = response.status_code
+        self.assertEqual(statusCode, 200)
+
+    def test_types_update_topic(self):
+        response = self.tester.patch(
+            f'chaddit/c/topic/${self.test_topic_id}',
+            headers={'api_token': self.admin_token}
+        )
+        response_json = json.loads(response.data)
+        self.assertEqual(type(response_json.get('topic_id')), int)
+        self.assertEqual(type(response_json.get('topic_title')), str)
+        self.assertEqual(type(response_json.get('created_at')), str)
+        self.assertEqual(type(response_json.get('updated_at')), str)
+        self.assertEqual(type(response_json.get('author_id')), int)
+        self.assertEqual(type(response_json.get('tags')), list)
+        self.assertTrue(type((response_json.get('image')) == str) or (type(response_json.get('image')) == None))
+        self.assertEqual(type(response_json.get('active')), bool)
+        self.assertEqual(type(response_json.get('author')), dict)
+        self.assertEqual(type(response_json.get('threads_count')), int)
+        statusCode = response.status_code
+        self.assertEqual(statusCode, 200)
+
+    def test_types_create_thread(self):
+        response = self.tester.post(
+            f'chaddit/c/thread',
+            headers={
+                'api-token': self.admin_token,
+                'topic_id': self.test_topic_id
+            },
+            json={
+                'thread_title': "test thread title",
+                'posts': [{'body': "test body"}]
+            }
+        )
+        response_json = json.loads(response.data)
+        self.assertEqual(type(response_json.get('thread_id')), int)
+        self.assertEqual(type(response_json.get('thread_title')), str)
+        self.assertEqual(type(response_json.get('created_at')), str)
+        self.assertEqual(type(response_json.get('updated_at')), str)
+        self.assertEqual(type(response_json.get('author_id')), int)
+        self.assertTrue(type((response_json.get('image')) == str) or (type(response_json.get('image')) == None))
+        self.assertEqual(type(response_json.get('active')), bool)
+        self.assertEqual(type(response_json.get('author')), dict)
+        self.assertEqual(type(response_json.get('topic_id')), int)
+        self.assertEqual(type(response_json.get('posts')), dict)
+        self.assertEqual(type(response_json.get('author')), dict)
+        self.assertEqual(type(response_json.get('posts_count')), dict)
+        self.assertEqual(type(response_json.get('views')), int)
+        statusCode = response.status_code
+        self.assertEqual(statusCode, 201)
+
+    def test_types_update_thread(self):
+        response = self.tester.patch(
+            f'chaddit/c/thread/${self.test_thread_id}',
+            headers={
+                'api-token': self.admin_token,
+            },
+            json={
+                'views': 100
+            }
+        )
+        response_json = json.loads(response.data)
+        self.assertEqual(type(response_json.get('thread_id')), int)
+        self.assertEqual(type(response_json.get('thread_title')), str)
+        self.assertEqual(type(response_json.get('created_at')), str)
+        self.assertEqual(type(response_json.get('updated_at')), str)
+        self.assertEqual(type(response_json.get('author_id')), int)
+        self.assertTrue(type((response_json.get('image')) == str) or (type(response_json.get('image')) == None))
+        self.assertEqual(type(response_json.get('active')), bool)
+        self.assertEqual(type(response_json.get('author')), dict)
+        self.assertEqual(type(response_json.get('topic_id')), int)
+        self.assertEqual(type(response_json.get('posts')), dict)
+        self.assertEqual(type(response_json.get('author')), dict)
+        self.assertEqual(type(response_json.get('posts_count')), dict)
+        self.assertEqual(type(response_json.get('views')), int)
+        statusCode = response.status_code
+        self.assertEqual(statusCode, 200)
+
+    def test_types_create_post(self):
+        response = self.tester.patch(
+            f'chaddit/c/post',
+            headers={
+                'api-token': self.admin_token,
+                'thread_id': self.test_thread_id,
+                'post_id': self.test_post_id
+            },
+            json={
+                'body': 'test post'
+            }
+        )
+        response_json = json.loads(response.data)
+        self.assertEqual(type(response_json.get('post_id')), int)
+        self.assertEqual(type(response_json.get('body')), str)
+        self.assertEqual(type(response_json.get('created_at')), str)
+        self.assertEqual(type(response_json.get('updated_at')), str)
+        self.assertEqual(type(response_json.get('author_id')), int)
+        self.assertTrue(type((response_json.get('image')) == str) or (type(response_json.get('image')) == None))
+        self.assertEqual(type(response_json.get('active')), bool)
+        self.assertEqual(type(response_json.get('author')), dict)
+        self.assertEqual(type(response_json.get('root_post_id')), int)
+        self.assertEqual(type(response_json.get('thread_id')), int)
+        self.assertEqual(type(response_json.get('responses')), dict)
+        statusCode = response.status_code
+        self.assertEqual(statusCode, 201)
+
+    def test_types_create_message(self):
+        response = self.tester.patch(
+            f'chaddit/c/message',
+            headers={
+                'api-token': self.admin_token,
+                'chat_id': self.test_chat_id,
+            },
+            json={
+                'body': 'test message'
+            }
+        )
+        response_json = json.loads(response.data)
+        self.assertEqual(type(response_json.get('message_id')), int)
+        self.assertEqual(type(response_json.get('body')), str)
+        self.assertEqual(type(response_json.get('created_at')), str)
+        self.assertEqual(type(response_json.get('updated_at')), str)
+        self.assertEqual(type(response_json.get('author_id')), int)
+        self.assertEqual(type(response_json.get('active')), bool)
+        self.assertEqual(type(response_json.get('chat_id')), int)
+        statusCode = response.status_code
+        self.assertEqual(statusCode, 201)
+
+    def test_types_create_chat(self):
+        response = self.tester.post(
+            f'chaddit/c/chat',
+            headers={
+                'api-token': self.admin_token,
+            },
+            json={
+                'topic_id': self.test_topic_id
+            }
+        )
+        response_json = json.loads(response.data)
+        self.assertEqual(type(response_json.get('chat_id')), int)
+        self.assertEqual(type(response_json.get('created_at')), str)
+        self.assertEqual(type(response_json.get('updated_at')), str)
+        self.assertEqual(type(response_json.get('full')), bool)
+        self.assertEqual(type(response_json.get('active')), bool)
+        self.assertEqual(type(response_json.get('participants')), dict)
+        self.assertEqual(type(response_json.get('topic_id')), int)
+        statusCode = response.status_code
+        self.assertEqual(statusCode, 201)
+
+
 
     # def test_post_topic_successful(self):
-       
+
     #     response = self.tester.post(
     #         '/chaddit/c/topic',
     #         json={
     #                 'topic_title': 'Test',
-    #                 'tags': 
+    #                 'tags':
     #                         [
     #                             {'tag': "test"}
     #                         ]
@@ -109,32 +283,32 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 201)
 
     # def test_threads(self):
-       
+
     #     response = self.tester.get(
-    #         '/chaddit/c/threads', 
+    #         '/chaddit/c/threads',
     #         headers={'topic-id': self.test_topic_id}
     #     )
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 200)
 
     # def test_chats(self):
-       
+
     #     response = self.tester.get(
-    #         '/chaddit/c/chats', 
+    #         '/chaddit/c/chats',
     #         headers={'api_token': self.admin_token})
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 200)
 
     # # def test_chats_models(self):
-    # #    
+    # #
     # #     response = self.tester.get(
-    # #         '/chaddit/c/chats', 
+    # #         '/chaddit/c/chats',
     # #         headers={'api_token': self.admin_token})
     # #     data = json.loads(response.data, object_hook=lambda d: SimpleNamespace(**d))
     # #     self.assertTrue(data, bool)
 
     # def test_bad_request(self):
-       
+
     #     response = self.tester.get("chaddit/c/search/topic?query='Test'")
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 200)
@@ -152,9 +326,9 @@ class FlaskTest(unittest.TestCase):
     # def compare_db_and_endpoint_chats(self):
     #     app.app_context().push()
     #     db_chats = ChatModel.get_by_id(self.test_user_id)
-       
+
     #     response = self.tester.get(
-    #         '/chaddit/c/chats', 
+    #         '/chaddit/c/chats',
     #         headers={'api_token': self.admin_token})
     #     data = json.loads(response.data, object_hook=lambda d: SimpleNamespace(**d))
     #     self.assertNotEqual(db_chats, data)
@@ -165,7 +339,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(None, db_chats.topic_id)
 
     # def test_get_chat(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/chat/${self.test_chat_id}", headers={
     #         'api_token': self.admin_token
     #     })
@@ -173,7 +347,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 200)
 
     # def test_get_non_existing_chat(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/chat/${self.test_chat_id}", headers={
     #         'api_token': self.admin_token
     #     })
@@ -182,7 +356,7 @@ class FlaskTest(unittest.TestCase):
 
     # # posts
     # def test_get_posts_from_thread(self):
-       
+
     #     response = self.tester.get("chaddit/c/posts", headers={
     #         'thread_id': self.test_thread_id
     #     })
@@ -190,13 +364,13 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 200)
 
     # def test_get_post(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/post/${self.test_post_id}")
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 200)
 
     # def test_get_non_existing_post(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/post/${self.test_post_id}")
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 400)
@@ -217,7 +391,7 @@ class FlaskTest(unittest.TestCase):
 
     # # user tests
     # def test_login(self):
-       
+
     #     response = self.tester.get("chaddit/c/user", headers={
     #         'api_token': self.admin_token
     #     })
@@ -225,7 +399,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 307)
 
     # def test_get_user(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/user/${self.test_user_id}", headers={
     #         'api_token': self.admin_token
     #     })
@@ -235,7 +409,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 200)
 
     # def test_get_all_users(self):
-       
+
     #     response = self.tester.get("chaddit/c/users", headers={
     #         'role_id': RoleId.ADMINISTRATOR,
     #         'api_token': self.admin_token
@@ -244,7 +418,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 200)
 
     # def test_get_all_users_bad_role(self):
-       
+
     #     response = self.tester.get("chaddit/c/users", headers={
     #         'api_token': self.user_token
     #     })
@@ -252,7 +426,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 400)
 
     # def test_get_not_existing_user(self):
-       
+
     #     response = self.tester.get("chaddit/c/user/-1", headers={
     #         'api_token': self.admin_token
     #     })
@@ -260,7 +434,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 404)
 
     # # def test_successful_register(self):
-    # #    
+    # #
     # #     response = self.tester.post("chaddit/c/register", headers={
     # #         'user_email': 'usov@gmail.com',
     # #         'api_token': admin_token
@@ -270,7 +444,7 @@ class FlaskTest(unittest.TestCase):
     # #     self.assertEqual(statusCode, 200)
     # #
     # # def test_email_exists_register(self):
-    # #    
+    # #
     # #     response = self.tester.post("chaddit/c/register", headers={
     # #         'user_email': 'usov.misha@gmail.com',
     # #         'api_token': admin_token
@@ -280,7 +454,7 @@ class FlaskTest(unittest.TestCase):
     # #     self.assertEqual(statusCode, 400)
 
     # def test_bad_delete_topic(self):
-       
+
     #     response = self.tester.delete(f"chaddit/c/topic/${self.test_topic_id}", headers={
     #         'api_token': self.admin_token
     #     })
@@ -288,7 +462,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 404)
 
     # def test_bad_role_delete_topic(self):
-       
+
     #     response = self.tester.delete(f"chaddit/c/topic/${self.test_topic_id}", headers={
     #         'api_token': self.admin_token
     #     })
@@ -296,7 +470,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 404)
 
     # def test_get_all_topics_order_by_alphabet(self):
-       
+
     #     response = self.tester.get("chaddit/c/topics", headers={
     #         'orderby': "alphabet"
     #     })
@@ -304,7 +478,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 200)
 
     # def test_get_all_topics_order_by_popularity(self):
-       
+
     #     response = self.tester.get("chaddit/c/topics", headers={
     #         'orderbydesc': "popularity"
     #     })
@@ -312,25 +486,25 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 200)
 
     # def test_get_message_for_chat(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/messages/${self.test_message_id}")
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 200)
 
     # def test_get_not_existing_thread(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/thread/${self.test_thread_id}")
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 404)
 
     # def test_get_existing_thread(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/thread/${self.test_thread_id}")
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 200)
 
     # def test_delete_non_existing_thread(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/thread/${self.test_thread_id}", headers={
     #         'role_id': RoleId.ADMINISTRATOR,
     #         'api_token': self.admin_token
@@ -339,7 +513,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 404)
 
     # def test_delete_bad_role_id_thread(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/thread/${self.test_thread_id}", headers={
     #         'role_id': -1,
     #         'api_token': self.admin_token
@@ -348,19 +522,19 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 404)
 
     # def test_non_existing_thread(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/thread/${self.test_thread_id}")
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 404)
 
     # def test_existing_thread(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/thread/${self.test_thread_id}")
     #     statusCode = response.status_code
     #     self.assertEqual(statusCode, 200)
 
     # def test_bad_update_thread(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/thread/${self.test_thread_id}", headers={
     #         'role_id': 5,
     #         'api_token': self.admin_token
@@ -369,7 +543,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 404)
 
     # def test_bad_role_update_thread(self):
-       
+
     #     response = self.tester.patch(f"chaddit/c/thread/${self.test_thread_id}", headers={
     #         'role_id': 5,
     #         'api_token': self.admin_token
@@ -380,7 +554,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 200)
 
     # def test_update_thread(self):
-       
+
     #     response = self.tester.get(f"chaddit/c/thread/${self.test_thread_id}", headers={
     #         'api_token': self.admin_token
     #     })
@@ -406,7 +580,7 @@ class FlaskTest(unittest.TestCase):
     # # def test_on_get_created_message(self):
     # #     app.app_context().push()
     # #
-    # #    
+    # #
     # #     response = self.tester.post('chaddit/c/message', headers={
     # #         'user_id': "4",
     # #         'chat_id': '68',
@@ -424,7 +598,7 @@ class FlaskTest(unittest.TestCase):
     # #     self.assertEqual(chat.chat_id, data["chat_id"])
 
     # def test_on_get_created_chat(self):
-       
+
     #     response = self.tester.post('chaddit/c/chat', headers={
     #         'api_token': self.admin_token
     #     }, json={
@@ -438,7 +612,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(chat.chat_id, data["chat_id"])
 
     # def test_on_get_created_post(self):
-       
+
     #     response = self.tester.post('chaddit/c/post', headers={
     #         'api_token': self.admin_token,
     #         'thread_id': self.test_thread_id,
@@ -455,7 +629,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(chat.thread_id, data["thread_id"])
 
     # def test_on_get_created_thread_without_title(self):
-       
+
     #     response = self.tester.post('chaddit/c/thread', headers={
     #         'api_token': self.admin_token,
     #         'user_id': self.test_user_id,
@@ -465,7 +639,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(responseCode, 400)
 
     # def test_on_get_created_thread_without_root_post(self):
-       
+
     #     response = self.tester.post('chaddit/c/thread', headers={
     #         'api_token': self.admin_token,
     #         'topic_id': self.test_topic_id
@@ -481,7 +655,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(responseCode, 400)
 
     # def test_on_get_created_thread(self):
-       
+
     #     response = self.tester.post('chaddit/c/thread', headers={
     #         'api_token': self.admin_token,
     #         'topic_id': self.test_topic_id
@@ -501,7 +675,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(chat.author_id, data["author_id"])
 
     # def test_on_get_created_topic_without_title(self):
-       
+
     #     response = self.tester.post('chaddit/c/topic', headers={
     #         'api_token': self.admin_token,
     #         'user_id': self.test_user_id,
@@ -511,7 +685,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(responseCode, 400)
 
     # def test_on_get_created_topic_without_tags(self):
-       
+
     #     response = self.tester.post('chaddit/c/topic', headers={
     #         'api_token': self.admin_token,
     #         'user_id': self.test_user_id,
@@ -523,7 +697,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(responseCode, 400)
 
     # # def test_on_get_created_topic(self):
-    # #    
+    # #
     # #     response = self.tester.post('chaddit/c/topic', headers={
     # #         'api_token': admin_token,
     # #         'user_id': '40',
@@ -537,7 +711,7 @@ class FlaskTest(unittest.TestCase):
     # #     self.assertEqual(chat.author_id, data["author_id"])
 
     # def test_on_update_topic_bad_role(self):
-       
+
     #     response = self.tester.patch(f'chaddit/c/topic/${self.test_topic_id}', headers={
     #         'api_token': self.admin_token
     #     })
@@ -554,7 +728,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(RoleId.USER, role.role_id)
 
     # def test_create_message_without_body(self):
-       
+
     #     response = self.tester.post('chaddit/c/message', headers={
     #         'api_token': self.admin_token
     #     }, json={
@@ -564,7 +738,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 400)
 
     # # def test_get_created_message(self):
-    # #    
+    # #
     # #     response = self.tester.post('chaddit/c/message', headers={
     # #         'api_token': admin_token,
     # #         'chat_id': '68',
@@ -579,7 +753,7 @@ class FlaskTest(unittest.TestCase):
     # #     message = MessageModel.get_by_id(data["message_id"])
     # #     self.assertEqual(message.author_id, data["author_id"])
     # def test_on_bad_update_user(self):
-       
+
     #     response = self.tester.patch('chaddit/c/user/-1', headers={
     #         'api_token': self.admin_token,
     #     })
@@ -587,7 +761,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 404)
 
     # def test_on_bad_update_user_password(self):
-       
+
     #     response = self.tester.patch('chaddit/c/user/-1', headers={
     #         'api_token': self.admin_token,
     #     }, json={
@@ -597,7 +771,7 @@ class FlaskTest(unittest.TestCase):
     #     self.assertEqual(statusCode, 404)
 
     # def test_on_bad_role_update_user(self):
-       
+
     #     response = self.tester.patch(f'chaddit/c/user/${self.test_user_id}', headers={
     #         'api_token': self.user_token,
     #     }, json={
