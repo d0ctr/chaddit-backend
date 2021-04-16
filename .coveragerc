@@ -8,6 +8,7 @@ omit =
     #utils/tirefire.py
     venv/*
     migrations/*
+    *virtualenvs*
 
 [report]
 exclude_lines =

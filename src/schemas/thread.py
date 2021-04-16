@@ -1,4 +1,4 @@
-from . import fields, Schema, EXCLUDE
+from . import fields, Schema, EXCLUDE, post, user
 
 class ThreadSchema(Schema):
   thread_id = fields.Int(dump_only = True)
@@ -9,8 +9,8 @@ class ThreadSchema(Schema):
   image = fields.Raw(allow_none=True)
   active = fields.Bool()
   topic_id = fields.Int()
-  posts = fields.Nested('PostSchema', many = True)
-  author = fields.Nested('UserSchema', dump_only = True)
+  posts = fields.Nested(post.PostSchema, many = True)
+  author = fields.Nested(user.UserSchema, dump_only = True)
   posts_count = fields.Int(dump_only = True)
   views = fields.Int(dump_only = True)
 

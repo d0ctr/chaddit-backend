@@ -1,4 +1,4 @@
-from . import fields, Schema, EXCLUDE
+from . import fields, Schema, EXCLUDE, user
 
 class ChatSchema(Schema):
   chat_id = fields.Int(dump_only = True)
@@ -7,7 +7,7 @@ class ChatSchema(Schema):
   topic_id = fields.Integer()
   active = fields.Boolean()
   full = fields.Boolean()
-  participants = fields.Nested('UserSchema', dump_only = True, many = True)
+  participants = fields.Nested(user.UserSchema, dump_only = True, many = True)
   
   class Meta:
     unknown = EXCLUDE
