@@ -82,6 +82,9 @@ def add_chat():
     chat = ChatModel({'chat_id': 1})
     user = UserModel.get_by_id(1)
     user.chats.append(chat)
+    user = UserModel.get_by_id(2)
+    user.chats.append(chat)
+    chat.update({'full': True})
     chat.save()
 
 def add_messages():
