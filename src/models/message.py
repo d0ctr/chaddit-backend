@@ -10,8 +10,8 @@ class MessageModel(db.Model):
   author_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable = False)
   chat_id = db.Column(db.Integer, db.ForeignKey('chats.chat_id'), nullable = False)
   active = db.Column(db.Boolean, default = True)
-  author = db.relationship('UserModel', back_populates = 'messages', uselist = False, lazy = True) 
-  chats = db.relationship('ChatModel', back_populates = 'messages', lazy = 'noload')
+  author = db.relationship('UserModel', back_populates = 'messages', uselist = False, lazy = True, cascade = 'all, delete') 
+  chats = db.relationship('ChatModel', back_populates = 'messages', lazy = 'noload', cascade = 'all, delete')
 
   def __init__(self, data):
     self.body = data.get('body')

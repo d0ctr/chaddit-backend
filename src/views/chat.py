@@ -16,6 +16,8 @@ def get_chat(chat_id):
   chat = ChatModel.get_by_id(chat_id)
   if not chat:
     return custom_response({'error' : 'Chat not found.'}, 404)
+  if g.user.get('user_id') not in [participant.user_id for participant in chat.participants]:
+    return custom_response({'error': 'You are not a member of this chat.'}, 403)
   ser_chat = chat_schema.dump(chat)
   return custom_response(ser_chat, 200)
 

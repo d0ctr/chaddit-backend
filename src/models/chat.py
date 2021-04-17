@@ -14,7 +14,7 @@ class ChatModel(db.Model):
   topic_id = db.Column(db.Integer, db.ForeignKey('topics.topic_id'), nullable = True)
   active = db.Column(db.Boolean, default = True)
   full = db.Column(db.Boolean, default = False)
-  messages = db.relationship('MessageModel', back_populates = 'chats', lazy = 'noload')
+  messages = db.relationship('MessageModel', back_populates = 'chats', lazy = 'noload', cascade = 'all, delete')
   participants = db.relationship('UserModel', back_populates = 'chats', secondary = user_to_chat, lazy = 'dynamic', cascade = 'all, delete')
 
   def __init__(self, data):

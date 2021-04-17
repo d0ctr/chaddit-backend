@@ -11,7 +11,13 @@ message_api = Blueprint('messages', __name__)
 message_schema = MessageSchema()
 
 @message_api.route('/messages/<int:chat_id>', methods = ['GET'])
+@Auth.auth_required
 def get_messages_for_chat(chat_id):
+  chat = ChatModel.get_by_id(chat_id)
+  if not chat:
+    return custom_response({'error': 'Chat no found.'}, 404)
+  if g.user.get('user_id') not in [participant.user_id for participant in chat.participants]:
+    return custom_response({'error': 'You are not a member of this chat.'}, 403)
   ser_messages = message_schema.dump(MessageModel.get_by_chat(chat_id), many = True)
   return custom_response(ser_messages, 200)
 

@@ -5,7 +5,7 @@ class RoleModel(db.Model):
   __tablename__ = 'roles'
   role_id = db.Column(db.Integer, primary_key = True)
   role_name = db.Column(db.String)
-  users = db.relationship('UserModel', back_populates = 'role')
+  users = db.relationship('UserModel', back_populates = 'role', cascade = 'all, delete')
 
   def __init__(self, data):
     self.role_name = data.get('role_name')

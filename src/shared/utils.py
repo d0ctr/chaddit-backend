@@ -58,6 +58,11 @@ def add_admin():
     UserModel({'user_id': 1, 'role_id': 1,'user_name' : 'admin', 'user_email' : admin_email, 'user_pass' : admin_pswd, 'role_id': RoleId.ADMINISTRATOR}).\
       save()
 
+def add_user():
+  if UserModel.query.count() == 1:
+    UserModel({'user_id': 2, 'role_id': 3,'user_name' : 'user', 'user_email' : 'user@chaddit.tk', 'user_pass' : 'user', 'role_id': RoleId.USER}).\
+      save()
+
 def add_topic():
   if TopicModel.query.count() == 0:
     TopicModel({'topic_id' : 1, 'topic_title': 'Test_topic_1', 'tags':[{'tag': 'test'}], 'author_id' : 1}).\
@@ -77,14 +82,11 @@ def add_chat():
     chat = ChatModel({'chat_id': 1})
     user = UserModel.get_by_id(1)
     user.chats.append(chat)
-    user.chats.append(chat)
     chat.save()
-    chat.update({'full': True})
 
 def add_messages():
   if MessageModel.query.count() == 0:
     MessageModel({'chat_id': 1, 'author_id': 1, 'message_id': 1, 'body': 'test_message_1'}).save()
-    MessageModel({'chat_id': 1, 'author_id': 1, 'message_id': 2, 'body': 'test_message_2'}).save()
 
 
 

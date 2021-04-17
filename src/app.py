@@ -6,7 +6,7 @@ from sqlalchemy_utils import database_exists, create_database
 from .socketio import socketio
 from .config import app_config
 from .models import db, bcrypt
-from .shared.utils import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic, add_post
+from .shared.utils import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic, add_post, add_user
 
 import time
 import os
@@ -53,6 +53,7 @@ def create_app(env_name):
     db.create_all()
     def_roles()
     add_admin()
+    add_user()
     add_topic()
     add_thread()
     add_post()

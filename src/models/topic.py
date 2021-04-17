@@ -15,7 +15,7 @@ class TopicModel(db.Model):
   chats = db.relationship('ChatModel', backref = 'topics', lazy = 'noload', cascade = 'all, delete')
   threads = db.relationship('ThreadModel', backref = 'topics', lazy = 'dynamic', cascade = 'all, delete')
   tags = db.relationship('TopicTagModel', backref = 'topics', lazy = True, cascade = 'all, delete')
-  author = db.relationship('UserModel', back_populates = 'topics', uselist = False, lazy = True)
+  author = db.relationship('UserModel', back_populates = 'topics', uselist = False, lazy = True, cascade = 'all, delete')
   
   @hybrid_property
   def threads_count(self):

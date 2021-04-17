@@ -16,12 +16,12 @@ class UserModel(db.Model):
   role_id = db.Column(db.Integer, db.ForeignKey('roles.role_id'))
   avatar = db.Column(db.Text)
   active = db.Column(db.Boolean, default = True)
-  role = db.relationship('RoleModel', back_populates = 'users')
-  topics = db.relationship('TopicModel', back_populates = 'author')
-  threads = db.relationship('ThreadModel', back_populates = 'author')
-  messages = db.relationship('MessageModel', back_populates = 'author', lazy = 'noload')
-  posts = db.relationship('PostModel', back_populates = 'author', lazy = 'noload')
-  chats = db.relationship('ChatModel', back_populates = 'participants', secondary = user_to_chat)
+  role = db.relationship('RoleModel', back_populates = 'users', cascade = 'all, delete')
+  topics = db.relationship('TopicModel', back_populates = 'author', cascade = 'all, delete')
+  threads = db.relationship('ThreadModel', back_populates = 'author', cascade = 'all, delete')
+  messages = db.relationship('MessageModel', back_populates = 'author', lazy = 'noload', cascade = 'all, delete')
+  posts = db.relationship('PostModel', back_populates = 'author', lazy = 'noload', cascade = 'all, delete')
+  chats = db.relationship('ChatModel', back_populates = 'participants', secondary = user_to_chat, cascade = 'all, delete')
 
   def __init__(self, data):
     self.user_name = data.get('user_name')

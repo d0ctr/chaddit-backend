@@ -17,7 +17,7 @@ class ThreadModel(db.Model):
   posts = db.relationship('PostModel', backref = 'threads',
                           primaryjoin = "and_(ThreadModel.thread_id==PostModel.thread_id, PostModel.root_post_id==None)",
                           lazy=True, cascade = 'all, delete')
-  author = db.relationship('UserModel', back_populates = 'threads', uselist = False, lazy = True)
+  author = db.relationship('UserModel', back_populates = 'threads', uselist = False, lazy = True, cascade = 'all, delete')
 
   @hybrid_property
   def posts_count(self):

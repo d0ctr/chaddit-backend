@@ -13,7 +13,7 @@ class PostModel(db.Model):
   root_post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'))
   active = db.Column(db.Boolean, default = True)
   responses = db.relationship('PostModel', lazy = True, cascade = 'all, delete')
-  author = db.relationship('UserModel', back_populates = 'posts', uselist = False, lazy = True)
+  author = db.relationship('UserModel', back_populates = 'posts', uselist = False, lazy = True, cascade = 'all, delete')
 
   def __init__(self, data):
     self.body = data.get('body')
