@@ -12,7 +12,7 @@ from tests.schemas import ChatSchema, PostSchema, RoleSchema, ThreadSchema, Topi
 from src.shared.authetification import Auth
 from src.shared.constants import RoleId
 from src.views.user import email_exists
-from tests.utils import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic, add_post, add_user
+from tests.utils.defaults import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic, add_post, add_user
 
 load_dotenv(override=False)
 app = create_app('development')
