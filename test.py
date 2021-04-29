@@ -12,7 +12,7 @@ from tests.schemas import ChatSchema, PostSchema, RoleSchema, ThreadSchema, Topi
 from src.shared.authetification import Auth
 from src.shared.constants import RoleId
 from src.views.user import email_exists
-from src.shared.utils import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic, add_post, add_user
+from tests.utils import def_roles, add_admin, add_chat, add_messages, add_thread, add_topic, add_post, add_user
 
 load_dotenv(override=False)
 app = create_app('development')
@@ -648,13 +648,6 @@ class FlaskTest(unittest.TestCase):
         })
         statusCode = response.status_code
         self.assertEqual(statusCode, 400)
-
-    # def test_on_bad_update_user(self):
-    #     response = self.tester.patch('/api/chaddit/c/user/{}', headers={
-    #         'api_token': self.admin_token,
-    #     })
-    #     statusCode = response.status_code
-    #     self.assertEqual(statusCode, 404)
 
     def test_on_bad_update_user_password(self):
         response = self.tester.patch(f'/api/chaddit/c/user/{self.test_user_id}', headers={

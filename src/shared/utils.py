@@ -65,16 +65,16 @@ def add_user():
 
 def add_topic():
   if TopicModel.query.count() == 0:
-    TopicModel({'topic_id' : 1, 'topic_title': 'Test_topic_1', 'tags':[{'tag': 'test'}], 'author_id' : 1}).\
+    TopicModel({'topic_id' : 1, 'topic_title': 'Welcome to chaddit', 'tags':[{'tag': 'info'}], 'author_id' : 1}).\
       save()
 
 def add_thread():
   if ThreadModel.query.count() == 0:
-    ThreadModel({'thread_id': 1, 'thread_title': 'Test_thread_1', 'author_id': 1, 'topic_id': 1}).\
+    ThreadModel({'thread_id': 1, 'thread_title': 'Short information', 'author_id': 1, 'topic_id': 1}).\
       save()
 def add_post():
   if PostModel.query.count() == 0:
-    PostModel({'post_id': 1, 'body': 'Test_post_1', 'author_id': 1, 'thread_id': 1}).\
+    PostModel({'post_id': 1, 'body': 'We welcome you on Chaddit -- the first imagebaord with chat-roulette.\nBe welcome to create your first topic here and discuss your ideas with others.\nGithub: @vladislavzasyadko, @d0ctr, @neverovskii, @mishokU', 'author_id': 1, 'thread_id': 1}).\
       save()
 
 def add_chat():
@@ -89,7 +89,7 @@ def add_chat():
 
 def add_messages():
   if MessageModel.query.count() == 0:
-    MessageModel({'chat_id': 1, 'author_id': 1, 'message_id': 1, 'body': 'test_message_1'}).save()
+    MessageModel({'chat_id': 1, 'author_id': 1, 'message_id': 1, 'body': 'First message here'}).save()
 
 
 
