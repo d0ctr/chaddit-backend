@@ -1,4 +1,6 @@
-from src.modelsmodels import TopicModel, ThreadModel, PostModel, ChatModel, UserModel, RoleModel, MessageModel
+import os
+from src.models import TopicModel, ThreadModel, PostModel, ChatModel, UserModel, RoleModel, MessageModel
+from src.shared.constants import RoleId
 
 def def_roles():
   if RoleModel.query.count() == 0:
