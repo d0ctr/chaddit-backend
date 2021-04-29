@@ -1,1 +1,1 @@
-web: bash entrypoint.sh localhost $PORT
+web: bash entrypoint.sh 0.0.0.0 $PORT
