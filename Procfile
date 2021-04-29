@@ -1,1 +1,1 @@
-web: gunicorn --worker-class eventlet -w 1 run:app
+web: bash entrypoint.sh
