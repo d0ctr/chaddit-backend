@@ -9,7 +9,7 @@ class UserSchema(Schema):
   created_at = fields.DateTime(dump_only = True)
   updated_at = fields.DateTime(dump_only = True)
   role_id = fields.Integer()
-  image = fields.Raw(allow_none = True)
+  avatar = fields.Raw(allow_none = True)
   active = fields.Boolean()
   role = fields.Nested(role.RoleSchema, dump_only = True)
 

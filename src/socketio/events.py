@@ -27,6 +27,6 @@ def new_message(json):
 
 
 @socketio.on('connect')
-def connect(json)
+def connect(json):
   print('user connected')
 

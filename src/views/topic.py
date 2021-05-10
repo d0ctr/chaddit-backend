@@ -19,7 +19,7 @@ def topic():
 def get_topic(topic_id):
   topic = TopicModel.get_by_id(topic_id)
   if not topic:
-    return custom_response({'error': 'Topic not found.'}, 400)
+    return custom_response({'error': 'Topic not found.'}, 404)
   ser_topic = topic_schema.dump(topic)
   return custom_response(ser_topic, 200)
 
@@ -49,7 +49,7 @@ def create_topic():
 
   if ser_topic.get('topic_title'):
     if not isinstance(ser_topic.get('tags'), list):
-      return custom_response({'error': 'Topic must contain atleast one tag.'}, 400)
+      return custom_response({'error': 'Topic must contain at least one tag.'}, 400)
     topic = TopicModel(ser_topic)
     topic.save()
     ser_topic = topic_schema.dump(topic)

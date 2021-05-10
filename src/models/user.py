@@ -45,7 +45,6 @@ class UserModel(db.Model):
       if key == 'user_email':
         if item == '':
           continue
-      setattr(self, key, item)
       if key == 'avatar':
         if item != None:
           item = item.encode()

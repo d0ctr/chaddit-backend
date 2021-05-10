@@ -93,7 +93,7 @@ def update_user(user_id):
     ser_user = user_schema.dump(updating_user)
     return custom_response(ser_user, 200)
   else:
-    return custom_response({'error' : 'You do not have permission to edit this user'}, 403)
+    return custom_response({'error' : 'You do not have permission to edit this user.'}, 403)
 
 @user_api.route('/users', methods = ['GET'])
 @Auth.auth_required
@@ -103,4 +103,4 @@ def get_all():
     ser_users = user_schema.dump(users, many = True)
     return custom_response(ser_users, 200)
   else:
-    return custom_response({'error' : 'You do not have permission to access this data.'}, 400)
+    return custom_response({'error' : 'You do not have permission to access this data.'}, 403)

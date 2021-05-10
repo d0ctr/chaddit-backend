@@ -16,14 +16,17 @@ def get_posts_from_thread():
   limit = request.args.get('limit', default = 20, type = int)
   post = PostModel.get_by_thread_id(g.thread.get('thread_id'))[0]
   ser_post = post_schema.dump(post)
-  ser_post['responses'] = ser_post.get('responses')[offset:limit + offset]
+  if limit == 0:
+    ser_post['responses'] = ser_post.get('responses')[offset:]
+  else:
+    ser_post['responses'] = ser_post.get('responses')[offset:limit + offset]
   return custom_response(ser_post, 200)
 
 @post_api.route('/post/<int:post_id>', methods = ['GET'])
 def get_post(post_id):
   post =  PostModel.get_by_id(post_id)
   if not post:
-    return custom_response({'error': 'Post not found.'}, 400)
+    return custom_response({'error': 'Post not found.'}, 404)
   ser_post = post_schema.dump(post)
   return custom_response(ser_post, 200)
 
@@ -31,10 +34,13 @@ def get_post(post_id):
 def get_posts_from_root(root_post_id):
   offset = request.args.get('offset', default = 0, type = int)
   limit = request.args.get('limit', default = 20, type = int)
-  posts = PostModel.get_by_root_post_id(root_post_id)[offset:offset + limit]
+  posts = PostModel.get_by_root_post_id(root_post_id)
   if not posts:
-    return custom_response({'eroor': 'Posts not found.'}, 400)
-  ser_posts = post_schema.dump(posts)
+    return custom_response({'error': 'Posts not found.'}, 400)
+  if limit == 0:
+    ser_posts = post_schema.dump(posts[offset:], many = True)
+  else:
+    ser_posts = post_schema.dump(posts[offset:offset + limit], many = True)
   return custom_response(ser_posts, 200)
 
 @post_api.route('/post', methods = ['POST'])

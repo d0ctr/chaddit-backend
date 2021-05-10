@@ -46,10 +46,10 @@ class ThreadModel(db.Model):
     for key, item in data.items():
       if key == 'posts':
         continue
-      setattr(self, key, item)
       if key == 'image':
         if item != None:
           item = item.encode()
+      setattr(self, key, item)
     self.updated_at = datetime.datetime.utcnow()
     db.session.commit()
 

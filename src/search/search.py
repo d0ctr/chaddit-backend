@@ -132,7 +132,7 @@ def get_thread_search():
   if 'query' in request.args:
     query = request.args['query']
   else:
-    return custom_response({"error":"Query parameter not found"}, 400)
+    return custom_response({"error":"Query parameter not found."}, 400)
 
   query = query[1:-1]
   query = parse.unquote(query)
@@ -158,7 +158,7 @@ def get_topic_search():
   if 'query' in request.args:
     query = request.args['query']
   else:
-    return custom_response({"error":"Query parameter not found"}, 400)
+    return custom_response({"error":"Query parameter not found."}, 400)
 
   query = query[1:-1]
   query = parse.unquote(query)
