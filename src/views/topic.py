@@ -43,8 +43,12 @@ def get_all():
 @topic_api.route('/topic', methods = ['POST'])
 @Auth.auth_required
 def create_topic():
-  req_data = request.get_json()
-  ser_topic = topic_schema.load(req_data)
+  try:
+    req_data = request.get_json()
+    ser_topic = topic_schema.load(req_data)
+  except:
+    print('\nError while loading req_data:\n', req_data)
+  
   ser_topic['author_id'] = g.user.get('user_id')
 
   if ser_topic.get('topic_title'):
