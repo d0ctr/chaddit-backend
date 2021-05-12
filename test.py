@@ -410,7 +410,7 @@ class FlaskTest(unittest.TestCase):
             'api_token': self.user_token
         })
         statusCode = response.status_code
-        self.assertEqual(statusCode, 400)
+        self.assertEqual(statusCode, 403)
 
     def test_get_not_existing_user(self):
         response = self.tester.get("/api/chaddit/c/user/-1", headers={
@@ -556,7 +556,7 @@ class FlaskTest(unittest.TestCase):
             'root_post_id': self.test_root_post_id,
             'post_id': self.test_post_id
         }, json={
-            'body': 'jfefiejweij'
+            'body': 'test_post'
         })
         with app.app_context():
             data = json.loads(response.data)
@@ -577,12 +577,8 @@ class FlaskTest(unittest.TestCase):
             'api_token': self.admin_token,
             'topic_id': self.test_topic_id
         }, json={
-            'thread_title': "fweufuewuhew",
-            'posts': [
-                {
-                    'name': "jifjweio"
-                }
-            ]
+            'thread_title': "bad_test_thread",
+            'posts': []
         })
         responseCode = response.status_code
         self.assertEqual(responseCode, 400)
@@ -592,10 +588,10 @@ class FlaskTest(unittest.TestCase):
             'api_token': self.admin_token,
             'topic_id': self.test_topic_id
         }, json={
-            'thread_title': 'fweufuewuhew',
+            'thread_title': 'test_thread',
             'posts': [
                 {
-                    'body': "jwodjw"
+                    'body': "test_post"
                 }
             ]
         })
