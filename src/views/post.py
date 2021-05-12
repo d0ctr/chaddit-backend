@@ -49,7 +49,11 @@ def get_posts_from_root(root_post_id):
 @CurrentWorkspace.post_required
 def create_post():
   req_data = request.get_json()
-  ser_post = post_schema.load(req_data)
+  try:
+    ser_post = post_schema.load(req_data)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid post scheme was provided.'}, 400)
+  
   ser_post['author_id'] = g.user.get('user_id')
   ser_post['thread_id'] = g.thread.get('thread_id')
   ser_post['root_post_id'] = g.post.get('post_id')

@@ -14,7 +14,12 @@ post_schema = PostSchema()
 @thread_api.route('/thread', methods = ['GET', 'PATCH', 'DELETE'])
 @CurrentWorkspace.thread_required
 def thread():
-  return redirect(url_for('threads.get_thread', thread_id = g.thread.get('thread_id')), code = 307)
+  if request.method == 'GET':
+    return redirect(url_for('threads.get_thread', thread_id = g.thread.get('thread_id')), 307)
+  elif request.method == 'PATCH':
+    return redirect(url_for('threads.update_thread', thread_id = g.thread.get('thread_id')), 307)
+  elif request.method == 'DELETE':
+    return redirect(url_for('threads.delete_thread', thread_id = g.thread.get('thread_id')), 307)
 
 @thread_api.route('/threads', methods = ['GET'])
 @CurrentWorkspace.topic_required
@@ -49,7 +54,10 @@ def get_thread(thread_id):
 @CurrentWorkspace.topic_required
 def create_thread():
   req_data = request.get_json()
-  ser_thread = thread_schema.load(req_data)
+  try:
+    ser_thread = thread_schema.load(req_data)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid thread scheme was provided.'}, 400)
   ser_thread['author_id'] = g.user.get('user_id')
   ser_thread['topic_id'] = g.topic.get('topic_id')
 
@@ -80,7 +88,10 @@ def update_thread(thread_id):
     return custom_response({'error' : 'You do not have permission to edit this content.'}, 403)
 
   req_data = request.get_json()
-  ser_thread = thread_schema.load(req_data, partial = True)
+  try:
+    ser_thread = thread_schema.load(req_data, partial = True)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid thread scheme was provided.'}, 400)
 
   updating_thread = ThreadModel.get_by_id(thread_id)
   if not updating_thread:

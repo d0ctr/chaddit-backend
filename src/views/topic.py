@@ -13,7 +13,12 @@ topic_schema = TopicSchema()
 @topic_api.route('/topic', methods = ['GET', 'PATCH', 'DELETE'])
 @CurrentWorkspace.topic_required
 def topic():
-  return redirect(url_for('topics.get_topic', topic_id = g.topic.get('topic_id')), 307)
+  if request.method == 'GET':
+    return redirect(url_for('topics.get_topic', topic_id = g.topic.get('topic_id')), 307)
+  elif request.method == 'PATCH':
+    return redirect(url_for('topics.update_topic', topic_id = g.topic.get('topic_id')), 307)
+  elif request.method == 'DELETE':
+    return redirect(url_for('topics.delete_topic', topic_id = g.topic.get('topic_id')), 307)
 
 @topic_api.route('/topic/<int:topic_id>', methods = ['GET'])
 def get_topic(topic_id):
@@ -43,11 +48,11 @@ def get_all():
 @topic_api.route('/topic', methods = ['POST'])
 @Auth.auth_required
 def create_topic():
+  req_data = request.get_json()
   try:
-    req_data = request.get_json()
     ser_topic = topic_schema.load(req_data)
-  except:
-    print('\nError while loading req_data:\n', req_data)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid topic scheme was provided.'}, 400)
   
   ser_topic['author_id'] = g.user.get('user_id')
 
@@ -68,7 +73,10 @@ def update_topic(topic_id):
     return custom_response({'error' : 'You do not have permission to edit this content.'}, 403)
   
   req_data = request.get_json()
-  ser_topic = topic_schema.load(req_data, partial = True)
+  try:
+    ser_topic = topic_schema.load(req_data, partial = True)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid topic scheme was provided.'}, 400)
 
   updating_topic = TopicModel.get_by_id(topic_id)
   if not updating_topic:

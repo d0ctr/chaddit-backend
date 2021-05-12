@@ -25,7 +25,11 @@ def get_chat(chat_id):
 @Auth.auth_required
 def create_chat():
   req_data = request.get_json()
-  ser_chat = chat_schema.load(req_data)
+  try:
+    ser_chat = chat_schema.load(req_data)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid chat scheme was provided.'}, 400)
+    
   topic_id = req_data.get('topic_id')
   vacant_chat = ChatModel.get_vacant_chat(user_id = g.user.get('user_id'), topic_id = topic_id)
   if not vacant_chat:

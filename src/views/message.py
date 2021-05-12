@@ -26,7 +26,11 @@ def get_messages_for_chat(chat_id):
 @Auth.auth_required
 def create_message():
   req_data = request.get_json()
-  ser_message = message_schema.load(req_data)
+  try:
+    ser_message = message_schema.load(req_data)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid message scheme was provided.'}, 400)
+    
   if not ser_message.get('body'):
     return custom_response({'error': 'Message must have a body.'}, 400)
   ser_message['chat_id'] = g.chat.get('chat_id')
