@@ -1,5 +1,5 @@
 from flask_socketio import SocketIO
 
-socketio = SocketIO()
+socketio = SocketIO(logger=True, engineio_logger=True, async_mode='eventlet')
 
-__all__ = ['callbacks', 'events']
+__all__ = []
