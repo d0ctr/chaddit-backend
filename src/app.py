@@ -1,8 +1,6 @@
-from flask import Flask, g, render_template, request
+from flask import Flask, g, render_template
 from flask_migrate import Migrate
 from flask_cors import CORS
-from sqlalchemy import create_engine
-from sqlalchemy_utils import database_exists, create_database
 from .socketio import socketio
 from .config import app_config
 from .models import db, bcrypt
@@ -11,7 +9,7 @@ from .shared.utils import def_roles, add_admin, add_chat, add_messages, add_thre
 import time
 import os
 
-from .views.user import user_api as user_blueprint, register
+from .views.user import user_api as user_blueprint
 from .views.topic import topic_api as topic_blueprint
 from .views.thread import thread_api as thread_blueprint
 from .views.post import post_api as post_blueprint

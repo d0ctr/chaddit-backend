@@ -1,4 +1,4 @@
-from flask import request, json, Blueprint, g
+from flask import request, Blueprint, g
 from marshmallow import ValidationError
 from ..socketio import socketio
 from ..models import MessageModel, ChatModel, UserModel

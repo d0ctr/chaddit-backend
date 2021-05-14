@@ -1,4 +1,4 @@
-from flask import request, json, Response, Blueprint, g, redirect, url_for
+from flask import request, Blueprint, g
 from marshmallow import ValidationError
 from ..models import PostModel
 from ..schemas import PostSchema

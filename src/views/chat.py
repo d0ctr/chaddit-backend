@@ -1,11 +1,10 @@
-from flask import request, json, Response, Blueprint, g, redirect, url_for
+from flask import request, Blueprint, g
 from marshmallow import ValidationError
 from ..socketio import socketio
 from ..models import ChatModel, UserModel
 from ..schemas import ChatSchema
 from ..shared.authetification import Auth
 from ..shared.responses import custom_response
-from ..shared.utils import CurrentWorkspace
 
 chat_api = Blueprint('chats', __name__)
 chat_schema = ChatSchema()
@@ -39,7 +38,6 @@ def create_chat():
     chat.save()
     ser_chat = chat_schema.dump(chat) 
   else:
-    another_user = vacant_chat.participants[0]
     user = UserModel.get_by_id(g.user.get('user_id'))
     user.chats.append(vacant_chat)
     vacant_chat.full = True

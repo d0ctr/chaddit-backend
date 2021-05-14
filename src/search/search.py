@@ -1,4 +1,4 @@
-from flask import jsonify, request, Blueprint
+from flask import request, Blueprint
 
 from src.models.thread import ThreadModel
 from src.models.topic import TopicModel

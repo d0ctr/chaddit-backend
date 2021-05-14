@@ -1,9 +1,7 @@
 import os
 import eventlet
-from flask_migrate import Migrate
 from src.app import create_app
 from src.app import socketio
-from src.models import db
 from dotenv import load_dotenv
 
 eventlet.monkey_patch()

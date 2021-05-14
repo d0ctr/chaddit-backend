@@ -1,5 +1,5 @@
 import jwt, os, datetime
-from flask import json, request, Response, g
+from flask import request, g
 from functools import wraps
 from ..models.user import UserModel
 from ..schemas.user import UserSchema

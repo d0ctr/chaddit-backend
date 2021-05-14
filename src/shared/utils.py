@@ -1,8 +1,8 @@
 import os
 from flask import json, request, Response, g
 from functools import wraps
-from ..models import TopicModel, ThreadModel, PostModel, ChatModel, UserModel, RoleModel, MessageModel
-from ..schemas import TopicSchema, ThreadSchema, PostSchema, ChatSchema, UserSchema, RoleSchema, MessageSchema
+from ..models import TopicModel, ThreadModel, TopicTagModel, PostModel, ChatModel, UserModel, RoleModel, MessageModel
+from ..schemas import TopicSchema, ThreadSchema, PostSchema, ChatSchema
 from .constants import RoleId
 
 def del_messages():
