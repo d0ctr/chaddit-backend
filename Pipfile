@@ -72,6 +72,10 @@ SQLAlchemy-Utils = "==0.37.0"
 Werkzeug = "==1.0.1"
 
 [dev-packages]
+autopep8 = "*"
 
 [requires]
 python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true
