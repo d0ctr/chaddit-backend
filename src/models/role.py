@@ -33,5 +33,4 @@ class RoleModel(db.Model):
     return RoleModel.query.get(id)
 
   def __repr__(self):
-    return '<role_id {}, role_name {}>' \
-      .format(self.role_id, self.role_name)
+    return '<' + ', '.join('%s: {%s}' % item for item in vars(self).items()) + '>'

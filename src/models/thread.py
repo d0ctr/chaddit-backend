@@ -102,5 +102,4 @@ class ThreadModel(db.Model):
       return ThreadModel.query.filter_by(topic_id=topic_id).order_by(ThreadModel.created_at)
 
   def __repr__(self):
-    return '<thread_id {}, thread_title {}, created_at {}, updated_at {}, topic_id {}, author_id {}, active {}>' \
-      .format(self.thread_id, self.thread_title, self.created_at, self.updated_at, self.topic_id, self.author_id, self.active)
+    return '<' + ', '.join('%s: {%s}' % item for item in vars(self).items()) + '>'

@@ -100,5 +100,4 @@ class TopicModel(db.Model):
     return TopicModel.query.get(id)
 
   def __repr__(self):
-    return '<topic_id {}, topic_title {}, created_at {}, updated_at {}, author_id {}, active {}>' \
-      .format(self.topic_id, self.topic_title, self.created_at, self.updated_at, self.author_id, self.active)
+    return '<' + ', '.join('%s: {%s}' % item for item in vars(self).items()) + '>'

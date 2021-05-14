@@ -53,6 +53,4 @@ class MessageModel(db.Model):
     return MessageModel.query.get(chat_id)
 
   def __repr__(self):
-    return '<message_id {}, body {}, created_at {}, updated_at {}, author_id {}, chat_id {}, active {}>' \
-      .format(self.message_id, self.body, self.created_at, self.updated_at, self.author_id, self.chat_id, self.active)
-
+    return '<' + ', '.join('%s: {%s}' % item for item in vars(self).items()) + '>'

@@ -59,5 +59,4 @@ class PostModel(db.Model):
     return PostModel.query.get(id)
 
   def __repr__(self):
-    return '<post_id {}, body {}, created_at {}, updated_at {}, author_id {}, thread_id {}, root_post_id {}, active {}>' \
-      .format(self.post_id, self.body, self.created_at, self.updated_at, self.author_id, self.thread_id, self.root_post_id, self.active)
+    return '<' + ', '.join('%s: {%s}' % item for item in vars(self).items()) + '>'

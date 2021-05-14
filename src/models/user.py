@@ -69,8 +69,7 @@ class UserModel(db.Model):
     return UserModel.query.filter_by(user_email=email).first()
 
   def __repr__(self):
-    return '<user_id {}, user_name {}, user_tag {}, user_email {}, created_at {}, updated_at {}, role_id {}, active {}>' \
-      .format(self.user_id, self.user_name, self.user_tag, self.user_email, self.created_at, self.updated_at, self.role_id, self.active)
+    return '<' + ', '.join('%s: {%s}' % item for item in vars(self).items()) + '>'
 
   def __generate_hash(self, password):
     return bcrypt.generate_password_hash(password, rounds = 10).decode('utf-8')

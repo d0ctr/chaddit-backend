@@ -32,5 +32,4 @@ class TopicTagModel(db.Model):
     return TopicTagModel.query.filter_by(tag = tag)
   
   def __repr__(self):
-    return '<tag_id {}, topic_id {}, tag {}>' \
-      .format(self.tag_id, self.topic_id, self.tag)
+    return '<' + ', '.join('%s: {%s}' % item for item in vars(self).items()) + '>'

@@ -69,6 +69,5 @@ class ChatModel(db.Model):
       return chat
 
   def __repr__(self):
-    return '<chat_id {}, created_at {}, updated_at {}, topic_id {}, active {}, full {}>' \
-      .format(self.chat_id, self.created_at, self.updated_at, self.topic_id, self.active, self.full)
+    return '<' + ', '.join('%s: {%s}' % item for item in vars(self).items()) + '>'
 
