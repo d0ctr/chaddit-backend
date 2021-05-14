@@ -1,33 +1,33 @@
-Map([<Rule '/api/chaddit/c/search/threads' (OPTIONS, HEAD, GET) -> search.get_threads_route>,
- <Rule '/api/chaddit/c/search/topics' (OPTIONS, HEAD, GET) -> search.get_topics_route>,
- <Rule '/api/chaddit/c/search/thread' (OPTIONS, HEAD, GET) -> search.get_thread_search>,
- <Rule '/api/chaddit/c/search/topic' (OPTIONS, HEAD, GET) -> search.get_topic_search>,
- <Rule '/api/chaddit/c/register' (OPTIONS, POST) -> users.register>,
- <Rule '/api/chaddit/c/threads' (OPTIONS, HEAD, GET) -> threads.get_from_topic>,
- <Rule '/api/chaddit/c/message' (OPTIONS, POST) -> messages.create_message>,
- <Rule '/api/chaddit/c/topics' (OPTIONS, HEAD, GET) -> topics.get_all>,
- <Rule '/api/chaddit/c/thread' (HEAD, GET, OPTIONS, DELETE, PATCH) -> threads.thread>,
- <Rule '/api/chaddit/c/thread' (OPTIONS, POST) -> threads.create_thread>,
- <Rule '/api/chaddit/c/login' (OPTIONS, POST) -> users.login>,
- <Rule '/api/chaddit/c/users' (OPTIONS, HEAD, GET) -> users.get_all>,
- <Rule '/api/chaddit/c/topic' (HEAD, GET, OPTIONS, DELETE, PATCH) -> topics.topic>,
- <Rule '/api/chaddit/c/topic' (OPTIONS, POST) -> topics.create_topic>,
- <Rule '/api/chaddit/c/posts' (OPTIONS, HEAD, GET) -> posts.get_posts_from_thread>,
- <Rule '/api/chaddit/c/chats' (OPTIONS, HEAD, GET) -> chats.get_chats>,
- <Rule '/api/chaddit/c/user' (OPTIONS, GET, HEAD, PATCH) -> users.user>,
- <Rule '/api/chaddit/c/post' (OPTIONS, POST) -> posts.create_post>,
- <Rule '/api/chaddit/c/chat' (OPTIONS, POST) -> chats.create_chat>,
- <Rule '/api' (OPTIONS, HEAD, GET) -> index>,
- <Rule '/api/chaddit/c/messages/<chat_id>' (OPTIONS, HEAD, GET) -> messages.get_messages_for_chat>,
- <Rule '/api/chaddit/c/thread/<thread_id>' (OPTIONS, HEAD, GET) -> threads.get_thread>,
- <Rule '/api/chaddit/c/thread/<thread_id>' (OPTIONS, PATCH) -> threads.update_thread>,
- <Rule '/api/chaddit/c/thread/<thread_id>' (OPTIONS, DELETE) -> threads.delete_thread>,
- <Rule '/api/chaddit/c/topic/<topic_id>' (OPTIONS, HEAD, GET) -> topics.get_topic>,
- <Rule '/api/chaddit/c/topic/<topic_id>' (OPTIONS, PATCH) -> topics.update_topic>,
- <Rule '/api/chaddit/c/topic/<topic_id>' (OPTIONS, DELETE) -> topics.delete_topic>,
- <Rule '/api/chaddit/c/posts/<root_post_id>' (OPTIONS, HEAD, GET) -> posts.get_posts_from_root>,
- <Rule '/api/chaddit/c/user/<user_id>' (OPTIONS, HEAD, GET) -> users.get_user>,
- <Rule '/api/chaddit/c/user/<user_id>' (OPTIONS, PATCH) -> users.update_user>,
- <Rule '/api/chaddit/c/post/<post_id>' (OPTIONS, HEAD, GET) -> posts.get_post>,
- <Rule '/api/chaddit/c/chat/<chat_id>' (OPTIONS, HEAD, GET) -> chats.get_chat>,
- <Rule '/static/<filename>' (OPTIONS, HEAD, GET) -> static>])
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/search/threads
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/search/topics
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/search/thread
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/search/topic
+{'POST', 'OPTIONS'}	==>	/api/chaddit/c/register
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/threads
+{'POST', 'OPTIONS'}	==>	/api/chaddit/c/message
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/topics
+{'GET', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/thread
+{'POST', 'OPTIONS'}	==>	/api/chaddit/c/thread
+{'POST', 'OPTIONS'}	==>	/api/chaddit/c/login
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/users
+{'GET', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/topic
+{'POST', 'OPTIONS'}	==>	/api/chaddit/c/topic
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/posts
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/chats
+{'PATCH', 'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/user
+{'POST', 'OPTIONS'}	==>	/api/chaddit/c/post
+{'POST', 'OPTIONS'}	==>	/api/chaddit/c/chat
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/messages/<int:chat_id>
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/thread/<int:thread_id>
+{'PATCH', 'OPTIONS'}	==>	/api/chaddit/c/thread/<int:thread_id>
+{'DELETE', 'OPTIONS'}	==>	/api/chaddit/c/thread/<int:thread_id>
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/topic/<int:topic_id>
+{'PATCH', 'OPTIONS'}	==>	/api/chaddit/c/topic/<int:topic_id>
+{'DELETE', 'OPTIONS'}	==>	/api/chaddit/c/topic/<int:topic_id>
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/posts/<int:root_post_id>
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/user/<int:user_id>
+{'PATCH', 'OPTIONS'}	==>	/api/chaddit/c/user/<int:user_id>
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/post/<int:post_id>
+{'GET', 'HEAD', 'OPTIONS'}	==>	/api/chaddit/c/chat/<int:chat_id>
+{'GET', 'HEAD', 'OPTIONS'}	==>	/static/<path:filename>
