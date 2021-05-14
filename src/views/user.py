@@ -23,7 +23,10 @@ def user():
 @user_api.route('/register', methods = ['POST'])
 def register():
   req_data = request.get_json()
-  ser_user = user_schema.load(req_data)
+  try:
+    ser_user = user_schema.load(req_data)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid user scheme was provided.'}, 400)
   if email_exists(ser_user.get('user_email')):
     message = {'error' : 'User with this email already exists.'}
     return custom_response(message, 400)
@@ -39,7 +42,10 @@ def register():
 @user_api.route('/login', methods = ['POST'])
 def login():
   req_data = request.get_json()
-  ser_user = user_schema.load(req_data, partial=True)
+  try:
+    ser_user = user_schema.load(req_data, partial=True)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid user scheme was provided.'}, 400)
 
   if not ser_user.get('user_email') or not ser_user.get('user_pass'):
     return custom_response({'error': 'Email and password are required to login.'}, 400)
@@ -74,7 +80,10 @@ def get_user(user_id):
 @Auth.auth_required
 def update_user(user_id):
   req_data = request.get_json()
-  ser_user = user_schema.load(req_data, partial = True)
+  try:
+    ser_user = user_schema.load(req_data, partial = True)
+  except ValidationError as err:
+    return custom_response({'error': 'Invalid user scheme was provided.'}, 400)
 
   updating_user = UserModel.get_by_id(user_id)
   if not updating_user:
